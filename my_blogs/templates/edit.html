@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Edit Blogs{% endblock %}
+{% block content %}
+	{% if user.is_authenticated %}
+		{% if user.id == post.author.id %}
+			<h2>Update Your Blogs...</h2>
+			<br>
+			<div class="form-group">
+				<form method="POST">
+					{% csrf_token %}
+					{{ form.as_p }}
+					{{ form.media }}
+					<button class="btn btn-primary">Update</button>
+					<a href="{% url 'article' post.pk %}" class="btn btn-secondary">Cancel</a>
+				</form>
+				<br><br>
+			</div>
+		{% else %}
+			ERROR 404! - Forbidden<br>
+			Page Not Found
+		{% endif %}
+	{% else %}
+		ERROR 404! - Forbidden<br>
+		Page Not Found
+	{% endif %}
+{% endblock %}

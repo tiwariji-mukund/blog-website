@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Blog Categories{% endblock %}
+
+{% block content %}
+	
+
+	<h1>Blog Categories...</h1>
+	<hr>
+
+	
+    {% for items in category_menu %}
+      <h4><a class="my-3 dropdown-item" href="{% url 'category' items %}">{{ items }}</a></h4>
+    {% endfor %}
+    
+    {% if user.is_authenticated %}
+    <hr>
+      <a class="btn btn-outline-primary my-3" href="{% url 'add_category' %}">Add New Category</a><br>
+    {% endif %}
+
+{% endblock %}

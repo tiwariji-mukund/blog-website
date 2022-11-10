@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+	{% if user.is_authenticated %}
+		<section class="h-100 gradient-custom-2">
+		  	<div class="container py-5 h-100">
+		    	<div class="row d-flex justify-content-center align-items-center h-100">
+		      		<div class="col col-lg-9 col-xl-7">
+		        		<div class="card">
+		          			<div class="rounded-top text-white d-flex flex-row" style="background-image: url('https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp'); backdrop-filter: brightness(60%); height:200px;">		          				
+		            			<div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+		            				{% if userprofile.profile_pic %}
+							      		<img src="{{ userprofile.profile_pic.url }}" alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2 ml-2" style="width: 150px; height: 200px; z-index: 1">
+							      	{% else %}
+							      		<img src="{% static 'my_blogs/images/index.png' %}" alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2 mx-2" style="width: 150px; height: 200px; z-index: 1">
+							    	{% endif %}
+		            			</div>
+		            			<div class="ms-3 ml-4 my-3" style="margin-top: 130px;">
+					                <div class="p-4 mt-5"><h5>
+						                <p class="font-italic mb-1">Full Name:- {{ my_profile.user.first_name }} {{ user.last_name }}</p>
+						                <p class="font-italic mb-1">Username:- {{ my_profile.user.username }}</p>
+						                <p class="font-italic mb-0">Email Address:- {{ my_profile.user.email }}</p></h5>
+						              </div>
+		            			</div>
+		          			</div>
+		          			<div class="p-4 text-black" style="background-color: #f8f9fa;">
+		            			<div class="d-flex justify-content-end text-center py-1">
+		            				<div>
+						                <a href="{% url 'edit_profile' my_profile.user.userprofile.id %}" type="submit" class="btn btn-outline-dark ml-3" data-mdb-ripple-color="dark" style="z-index: 1;">Edit Profile</a>
+				              		</div>
+				              		<div class="px-2">
+						                <a href="{% url 'chage_pass' %}" type="submit" class="btn btn-outline-dark ml-3" data-mdb-ripple-color="dark" style="z-index: 1;">Change Password</a>
+				              		</div>
+				            	</div>
+				            </div>
+				            <div class="card-body p-4 text-black">
+				            	<div class="mb-5">
+				              		<p class="lead fw-normal mb-1"><h3>About</p></h3>
+				              		<div class="p-4" style="background-color: #f8f9fa;">
+						                <p class="font-italic mb-1">{{ my_profile.bio }}</p>
+				              		</div>
+				            	</div>
+				            </div>
+				            <div class="card-body text-black">
+				            	<div class="mb-5">
+				              		<p class="lead fw-normal mb-1"><h3>My Blogs</p></h3>
+				              		<div class="p-4" style="background-color: #a8a9af;">
+						                <p class="font-italic mb-1">{{ my_profile.bio }}</p>
+				              		</div>
+				            	</div>
+				            </div>
+		        		</div>
+		      		</div>
+		    	</div>
+		  	</div>
+		</section>
+	{% else %}
+	ERROR 404! - Forbidden<br>
+	Page Not Found
+	{% endif %}
+{% endblock %}

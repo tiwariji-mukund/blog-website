@@ -1,0 +1,45 @@
+
+{% extends 'base.html' %}
+{% block title %}Comment{% endblock %}
+
+{% block content %}
+
+
+	<section style="background-color: #eee;">
+	  	<div class="container my-5 py-5 text-dark">
+	    	<div class="row d-flex justify-content-center">
+	      		<div class="col-md-10 col-lg-8 col-xl-6">
+	          		<form method="POST">
+						{% csrf_token %}
+	        			<div class="card">
+	          				<div class="card-body p-4">
+	    						<center><i><h1 class="mb-3">Comments...</h1></i></center>
+		            			<div class="d-flex flex-start w-100">
+		              				<img class="rounded-circle shadow-1-strong me-3 mr-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(25).webp" alt="avatar" width="65" height="65">
+		              				<div class="w-100">
+		              					<div class="form-outline flex-fill mb-4">
+											<input type="text" name="name" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_name" class="form-control" placeholder="Name">
+										</div>
+		            					<div class="form-outline mt-4">
+		            						<textarea name="body" cols="40" rows="10" class="form-control" placeholder="+ Add a Comment" required id="id_body"></textarea>
+		                				</div>
+		                				<div class="d-flex justify-content-between mt-3">
+		                  					<button class="btn btn-primary">Post</button>
+		                				</div>
+		              				</div>
+		            			</div>
+	          				</div>
+	        			</div>
+		            </form>
+	      		</div>
+	    	</div>
+	  	</div>
+	</section>
+
+	<script>
+		var name = "{{ user.id }}";
+		document.getElementById('elder').value = name;
+	</script>
+
+
+{% endblock %}

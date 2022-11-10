@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{post.title}}{% endblock %}
+{% block content %}
+	<nav aria-label="breadcrumb">
+	  <ol class="breadcrumb">
+	    <li class="breadcrumb-item">{{ post.created_on }}</li>
+	    <li class="breadcrumb-item active" aria-current="page">#{{ post.title_tag }}</li>
+	  </ol>
+	</nav>
+
+	<h1 class="my-2">{{ post.title }}</h1><br>
+	<small>
+		<i class="bi bi-pen-fill mr-2"><a href="{% url 'profile_page' post.author.userprofile.id %}"> {{post.author.first_name}} {{post.author.last_name}} </a></i><i class="bi bi-tags-fill mr-2"><a href="{% url 'category' post.category %}"> {{post.category}} </a></i><i class="bi bi-calendar-date mr-3"> {{ post.created_on }}</i>
+		{% if user.is_authenticated %}
+			{% if user.id == post.author.id %}
+				<a class="btn btn-primary btn-sm" href="{% url 'Edit-Blogs' post.pk %}"><i class="bi bi-pencil-square ml-2 mr-2">   Edit</i></a>
+				<a class="btn btn-danger btn-sm" href="{% url 'delete' post.pk %}"><i class="bi bi-trash3-fill">  Delete</i></a>
+			{% endif %}
+		{% endif %}
+	</small>
+	<hr><br>
+	{% if post.image %}
+		<center>
+			<img src="{{ post.image.url }}" height="400px" width="600px" class="rounded">
+		</center><br><br>
+	{% endif %}
+	<div class="container mb-4" style="text-align: justify;">{{ post.content | safe }}</div><br><br>
+
+	<!--Likes-->
+	<center>
+		<form action="{% url 'like_post' post.pk %}" method="POST" class="container mb-2 my-3">
+			<i class="bi bi-hand-thumbs-up-fill"> Total Likes: {{ total_likes }}</i>
+			{% csrf_token %}
+			{% if user.is_authenticated %}
+				{% if liked %}
+					<button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm mx-2"><i class="bi bi-hand-thumbs-down"> Unlike</i></button>
+				{% else %}
+					<button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm mx-2"><i class="bi bi-hand-thumbs-up"> Like</i></button>
+				{% endif %}
+			{% else %}
+				<small><a href="{% url 'login' %}">Login</a> to like this Blog.</small>
+			{% endif %}
+		</form>
+	</center>
+	
+	
+	
+
+	<!-- Comment Section -->
+	<div class="row d-flex justify-content-center mt-4 my-2">
+  		<div class="col-md-8 col-lg-6">
+    		<div class="card shadow-0 border" style="background-color: #f0f2f5;">
+      			<div class="card-body p-4">
+        			<div class="form-outline mb-4">
+        				<!--
+				        <input type="text" id="addANote" class="form-control" placeholder="Type comment..." />
+				    	-->
+				        <label class="form-label mt-3" for="addANote"><a href="{% url 'add_comment' post.pk %}">+ Add a Comment...</a></label>
+			        </div>
+			        {% if not post.comments.all %}
+						<div class="card mb-4">
+	          				<div class="card-body">
+	            				<p>No Comments Yet...</p>
+	          				</div>
+		        		</div>
+					{% else %}
+						{% for comment in post.comments.all %}
+					        <div class="card mb-4">
+		          				<div class="card-body">
+		            				<p>{{ comment.body }}</p>
+		            				<div class="d-flex justify-content-between">
+		              					<div class="d-flex flex-row align-items-center">
+		                					<img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(4).webp" alt="avatar" width="25" height="25" />
+		                					<p class="small mb-0 ml-2 ms-2">{{ comment.name }}</p>
+		              					</div>
+			              				<div class="d-flex flex-row align-items-center">
+							                <p class="small text-muted mb-0">{{ comment.date_added }}</p>
+							            </div>
+		            				</div>
+		          				</div>
+			        		</div>
+			        	{% endfor %}
+					{% endif %}
+	        	</div>
+	        </div>
+	    </div>
+	</div>
+
+	<!-- Profile -->
+	<section class="vh-50">
+		<div class="container py-5 h-50">
+		    <div class="row d-flex justify-content-center align-items-center h-50">
+			    <div class="col col-md-9 col-lg-7 col-xl-5">
+			        <div class="card" style="border-radius: 15px;">
+			          	<div class="card-body p-4">
+			            	<div class="d-flex text-black">
+			              		<div class="flex-shrink-0 mr-3">
+			              			<a href="{% url 'profile_page' post.author.userprofile.id %}">
+								    	{% if post.author.userprofile.profile_pic %}
+								      		<img src="{{ post.author.userprofile.profile_pic.url }}" alt="Generic placeholder image" class="img-fluid" style="width: 150px; height: 200px; border-radius: 10px;">
+								      	{% else %}
+								      		<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp" alt="Generic placeholder image" class="img-fluid" style="width: 180px; border-radius: 10px;">
+								    	{% endif %}
+							    	</a>
+			                	</div>
+				              	<div class="flex-grow-1">
+				                	<h3 class="mb-1">
+				                		<a href="{% url 'profile_page' post.author.userprofile.id %}">{{post.author.first_name}} {{post.author.last_name}}</a></h3>
+				                	<p class="mb-2 pb-1" style="color: #2b2a2a;">{{post.author.username}}</p>
+				                	<div class="d-flex justify-content-center rounded-3" style="background-color: #efefef;">
+					                  	<p class="small text-muted my-2">
+								        	{% if post.author.userprofile.web_url %}
+								        		<a href="{{ post.author.userprofile.web_url }}" target="_blank"><i class="bi bi-globe2 mr-3"></i></a>
+								        	{% endif %} 
+								        	{% if post.author.userprofile.fb_url %}
+									        	<a href="{{ post.author.userprofile.fb_url }}" target="_blank"><i class="bi bi-facebook mr-3"></i></a>
+									        {% endif %} 
+									        {% if post.author.userprofile.instagram_url %}
+									    		<a href="{{ post.author.userprofile.instagram_url }}" target="_blank"><i class="bi bi-instagram mr-3"></i></a>  
+									    	{% endif %} 
+									    	{% if post.author.userprofile.linkedin_url %}
+									    		<a href="{{ post.author.userprofile.linkedin_url }}" target="_blank"><i class="bi bi-linkedin mr-3"></i></a> 
+									    	{% endif %} 
+									    	{% if post.author.userprofile.whatsapp_url %}
+									    		<a href="{{ post.author.userprofile.whatsapp_url }}" target="_blank"><i class="bi bi-whatsapp mr-3"></i></a>
+										    {% endif %} 
+										</p>
+				                	</div>
+					                <div class="d-flex pt-1">
+					                  	<a type="submit" href="{% url 'profile_page' post.author.userprofile.id %}" class="btn btn-primary mt-4 ml-auto"><i class="bi bi-eye-fill"></i> View</a>
+                  						
+					                </div>
+				              	</div>
+			            	</div>
+			          	</div>
+			        </div>
+			    </div>
+		    </div>
+		</div>
+	</section>
+{% endblock %}

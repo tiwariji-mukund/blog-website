@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Delete Blogs{% endblock %}
+
+{% block content %}
+
+
+{% if user.id == post.author.id %}
+	<h2>Delete Your Blog...</h2>
+	<br>
+	<h3>Delete: {{ post.title }}</h3>
+	<br>
+	<div class="form-group">
+		<form method="POST">
+			{% csrf_token %}
+			
+
+			<strong>Do You really Wish To Delete {{ post.title }} ???</strong><br><br>
+			<button class="btn btn-danger">Delete</button>
+			<a href="{% url 'article' post.pk %}" class="btn btn-secondary">Cancel</a>
+		</form>
+		<br><br>
+
+	</div>
+{% else %}
+
+ERROR 404! - Forbidden<br>
+Page Not Found
+{% endif %}
+{% endblock %}

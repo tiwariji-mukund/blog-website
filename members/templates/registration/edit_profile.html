@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Edit Profile{% endblock %}
+{% block content %}
+	{% if user.is_authenticated %}
+		{% if user.id == userprofile.user.id %}
+			<h2>Edit Profile...</h2>
+			<br>
+			<div class="form-group">
+				<form method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					{{ form.as_p }}
+					<button class="btn btn-primary">Update Profile</button>
+				</form>
+			</div>
+		{% else %}
+		ERROR 404! - Forbidden<br>Page Not Found
+		{% endif %}
+	{% else %}
+	ERROR 404! - Forbidden<br>Page Not Found
+	{% endif %}
+
+
+
+
+{% endblock %}

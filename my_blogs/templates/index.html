@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+
+	<h1><i>Welcome to i-Blogger</i></h1>
+	<br><br>
+	<!-- Card deck -->
+	<div class="row row-cols-1 row-cols-md-3">
+		{% for post in object_list %}
+	  		<div class="col mb-4">
+		    	<!-- Card -->
+		    	<div class="card">
+			      	<!--Card image-->
+		      		<div class="view overlay">
+		        		<a href="{% url 'article' post.pk %}"><div class="mask rgba-white-slight"></div>
+		        			{% if post.image %}
+								<img src="{{ post.image.url }}" class="card-img-top rounded" height="200" width="349" style="justify-content: center; display: flex;">
+							{% else %}
+								<img class="card-img-top" src="https://mdbootstrap.com/img/Mockups/Lightbox/Thumbnail/img%20(67).webp" alt="Card image cap" class="rounded" height="200" width="349" style="justify-content: center; display: flex;">
+							{% endif %}
+		        			<div class="mask rgba-white-slight"></div>
+		        		</a>
+		      		</div>
+			      	<!--Card content-->
+			      	<div class="card-body">
+				        	<!--Title-->
+				        	<h4 class="card-title"><a href="{% url 'article' post.pk %}">{{post.title}}</a></h4>
+			        		<small>
+								<i class="bi bi-pen-fill mr-3 ml-1"><a href="{% url 'profile_page' post.author.userprofile.id %}" class="icon ml-2">{{post.author.first_name}} {{post.author.last_name}}</a></i><i class="bi bi-tags-fill ml-3"><a href="{% url 'category' post.category %}" class="icon ml-2">{{post.category}}</a></i>
+							</small>							
+				        	<!--Text-->
+				        	<p class="card-text my-3">{{ post.snippets }}</p>
+				        	<!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+				        	<small class="card-link"><i class="bi bi-calendar-date mr-1"></i>{{ post.created_on }}</small>
+
+
+			      	</div>
+		    	</div>
+	    		<!-- Card -->
+	  		</div>
+		{% endfor %}
+	</div>
+	<!-- Card deck -->
+{% endblock %}

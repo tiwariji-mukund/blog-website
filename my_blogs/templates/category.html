@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Category{% endblock %}
+{% block content %}
+	
+	{% if category_posts %}
+		<h1><b><u><i>{{ catg }}</i></u></b></h1><br>
+			<!-- Card deck -->
+			<div class="row row-cols-1 row-cols-md-3">
+				{% for post in category_posts %}
+			  		<div class="col mb-4">
+				    	<!-- Card -->
+				    	<div class="card">
+					      	<!--Card image-->
+				      		<div class="view overlay" height="200" width="200">
+					    		<a href="{% url 'article' post.pk %}"><div class="mask rgba-white-slight"></div>
+									{% if post.image %}
+										<img src="{{ post.image.url }}" class="rounded" height="200" width="349" style="justify-content: center; display: flex;">
+									{% else %}
+										<img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/16.webp" alt="Card image cap" class="rounded" height="200" width="349" style="justify-content: center; display: flex;">
+									{% endif %}
+					    		</a>
+					  		</div>
+					      	<!--Card content-->
+					      	<div class="card-body">
+						        	<!--Title-->
+						        	<h4 class="card-title"><a href="{% url 'article' post.pk %}">{{post.title}}</a></h4>
+					        		<small>
+										<i class="bi bi-pen-fill mr-3 ml-1"><a href="{% url 'profile_page' post.author.userprofile.id %}" class="icon ml-2">{{post.author.first_name}} {{post.author.last_name}}</a></i><i class="bi bi-calendar-date ml-3 mr-2"></i>{{ post.created_on }}
+									</small>							
+						        	<!--Text-->
+						        	<p class="card-text">{{ post.snippets }}</p>
+						        	<!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+						        	<a href="{% url 'article' post.pk %}" class="btn btn-outline-primary mr-auto">Read More</a>
+					      	</div>
+				    	</div>
+			    		<!-- Card -->
+			  		</div>
+				{% endfor %}
+			</div>
+			<!-- Card deck -->
+	{% else %}
+		<h2>Error: Page Could Not Found!!!</h2>
+	{% endif %}
+
+{% endblock %}

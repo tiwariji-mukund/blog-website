@@ -1,0 +1,66 @@
+
+{% extends 'base.html' %}
+{% block title %}Create Profile{% endblock %}
+
+{% block content %}
+
+
+{% if user.is_authenticated %}
+	<h2>Create Profile</h2>
+	<br>
+	
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+	  	<div class="form-group">
+		    <label for="id_profile_pic">Profile Pic</label>
+		    <input type="file" class="form-control-file" name="profile_pic" accept="image/*" id="id_profile_pic">
+		 </div>
+	  	<div class="form-group">
+		    <label for="id_bio">Bio</label>
+		    <textarea name="bio" cols="40" rows="10" class="form-control" required id="id_bio" placeholder="About MySelf"></textarea>
+	  	</div>
+	  	
+	  	<div class="form-row">
+	  		<div class="form-group col-md-6">
+			    <label for="id_web_url">Website</label>
+			    <input type="text" name="web_url" class="form-control" maxlength="200" id="id_web_url" placeholder="Website Address">
+			</div>
+			<div class="form-group col-md-6">
+			    <label for="id_fb_url">Facebook</label>
+			    <input type="text" name="fb_url" class="form-control" maxlength="200" id="id_fb_url" placeholder="Facebook Account">
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+			    <label for="id_instagram_url">Instagram</label>
+			    <input type="text" name="instagram_url" class="form-control" maxlength="200" id="id_instagram_url" placeholder="Instagram ID">
+			</div>
+			<div class="form-group col-md-6">
+			    <label for="id_likedin_url">LinkedIn</label>
+			    <input type="text" name="likedin_url" class="form-control" maxlength="200" id="id_likedin_url" placeholder="LinkedIn Account">
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+			    <label for="id_whatsapp_url">WhatsApp</label>
+			    <input type="text" name="whatsapp_url" class="form-control" maxlength="200" id="id_whatsapp_url" placeholder="WhatsApp URL">
+			</div>
+			<div class="form-group col-md-6">
+			    <label for="id_web_url">GitHub</label>
+			    <input type="text" name="web_url" class="form-control" maxlength="200" id="id_web_url" placeholder="GitHub Account">
+			</div>
+		</div>
+		
+	  	<button type="submit" class="btn btn-primary ml-auto mb-5">Create Profile</button>
+	</form>
+	
+
+{% else %}
+ERROR 404! - Forbidden<br>
+Page Not Found
+{% endif %}
+
+
+
+
+{% endblock %}

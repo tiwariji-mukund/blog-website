@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Change Password{% endblock %}
+
+{% block content %}
+	{% if user.is_authenticated %}
+
+		<section class="vh-100">
+		  	<div class="container-fluid h-custom">
+		    	<div class="row d-flex justify-content-center align-items-center h-100">
+		      		<div class="col-md-9 col-lg-6 col-xl-5">
+		        		<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw1.webp" class="img-fluid" alt="Sample image">
+		      		</div>
+		      		<div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+			    		<form method="POST">
+						{% csrf_token %}
+							<div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
+			            		<p class="lead fw-normal my-3 me-3"><h2><i><b>Change Password</b></i></h2></p>
+			          		</div>
+			      			<!-- Name input -->
+			      			<div class="form-outline mt-4 mb-4">
+			            		<label for="id_old_password" class="form-label"><b><i class="bi bi-lock-fill">   Old Password</i></b></label>
+					    		<input type="password" name="old_password" autocomplete="current-password" required id="id_old_password" class="form-control" placeholder="Old Password"/>
+			          		</div>
+
+			      			<!-- Password input -->
+			      			<div class="form-outline mb-4">
+			        			<label class="form-label" for="id_new_password1"><b><i class="bi bi-key">   New Password</i></b></label>
+			        			<input type="password" id="id_new_password1" maxlength="100" name="new_password1" class="form-control" placeholder="New Password"/>
+			      			</div>
+
+			      			<!-- Repeat Password input -->
+			      			<div class="form-outline mb-4">
+			        			<label class="form-label" for="id_new_password2"><b><i class="bi bi-key-fill">   Confirm Password</i></b></label>
+			        			<input type="password" id="new_password2" maxlength="100" name="new_password2" class="form-control mb-4" placeholder="Confirm Password"/>
+			      			</div>
+			      			<!-- Submit button -->
+			      			<button type="submit" class="btn btn-primary btn-block mb-3 col-md-6 ml-auto mt-3">Update Password</button>
+			    		</form>
+		  			</div>
+				</div>
+			</div>
+		</section>
+		
+	{% else %}
+		ERROR 404! - Forbidden<br>Page Not Found
+	{% endif %}
+
+
+	
+
+
+
+{% endblock %}
